@@ -117,6 +117,11 @@
 #
 
 
+import sys
+sys.path.append('/home/next_lb/桌面/next/Depth_Map')
+from Depth.depth_anything.dpt import DepthAnything
+from Depth.depth_anything.util.transform import Resize, NormalizeImage, PrepareForNet
+
 
 def main():
     pass
