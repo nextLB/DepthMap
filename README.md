@@ -34,7 +34,20 @@
 再次运行app.py,然后复制终端出现的网址在本地浏览器，进行访问即可
     
 
+## 关于自主构建的程序的运行
 
+启动创建好的虚拟环境后
+    
+来到independent_achieved文件夹下，首先执行类似下述的链接指令
+
+    # 在 independent_achieved 目录下执行
+    ln -s /home/next_lb/桌面/next/Depth_Map/Depth/torchhub torchhub
+
+然后可运行sgbm_and_depth.py程序
+
+    python ./sgbm_and_depth.py
+
+会在指定文件夹下看到相应的结果
 
 
 ## 关于显存使用的查看

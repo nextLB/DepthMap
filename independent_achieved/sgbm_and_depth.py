@@ -1,6 +1,5 @@
 
 
-# python run.py --encoder vitl --img-path assets/examples --outdir depth_vis
 
 # import argparse
 # import cv2
@@ -117,18 +116,55 @@
 #
 
 
+
+# python run.py --encoder vitl --img-path assets/examples --outdir depth_vis
+
+
 import sys
 sys.path.append('/home/next_lb/桌面/next/Depth_Map')
+from torchvision.transforms import Compose
 from Depth.depth_anything.dpt import DepthAnything
 from Depth.depth_anything.util.transform import Resize, NormalizeImage, PrepareForNet
+import cv2
+import torch
 
+
+def detection_depth():
+    imagePath = ''
+    outDir = ''
+    encoder = 'vitl'
+    predOnly = ''
+    grayscale = ''
+
+    marginWidth = 50
+    captionHeight = 60
+    font = cv2.FONT_HERSHEY_SIMPLEX
+    fontScale = 1
+    fontThickness = 2
+    DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
+    depthAnything = DepthAnything.from_pretrained('LiheYoung/depth_anything_{}14'.format(encoder)).to(DEVICE).eval()
+    totalParams = sum(param.numel() for param in depthAnything.parameters())
+    print('Total parameters: {:.2f}M'.format(totalParams / 1e6))
+    transform = Compose([
+        Resize(
+            width=518,
+            height=518,
+            resize_target=False,
+            keep_aspect_ratio=True,
+            ensure_multiple_of=14,
+            resize_method='lower_bound',
+            image_interpolation_method=cv2.INTER_CUBIC,
+        ),
+        NormalizeImage(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+        PrepareForNet(),
+    ])
 
 def main():
-    pass
+    detection_depth()
+
 
 if __name__ == '__main__':
     main()
-
 
 
 
